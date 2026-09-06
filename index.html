@@ -332,6 +332,10 @@
     </div>
 
     <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://qjvpwnlbcnpqxqbhnmsw.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFqdnB3bmxiY25wcXhxYmhubXN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2OTY0MTIsImV4cCI6MjEwNDI3MjQxMn0.bl7bd17uls-dHmoukhW9HEOOm4t5CKogbC0hcfLeOjM';
+
         function toggleDropdown(header) {
             const dropdown = header.parentElement;
             const allDropdowns = document.querySelectorAll('.dropdown');
@@ -344,6 +348,68 @@
 
             dropdown.classList.toggle('active');
         }
+
+        // Track visitor function
+        async function trackVisit() {
+            try {
+                // 1. Get or create visitor ID from localStorage
+                let visitorId = localStorage.getItem('visitor_id');
+                let isFirstVisit = false;
+
+                if (!visitorId) {
+                    // Generate new UUID for first-time visitor
+                    visitorId = crypto.randomUUID();
+                    localStorage.setItem('visitor_id', visitorId);
+                    localStorage.setItem('first_visit_time', new Date().toISOString());
+                    isFirstVisit = true;
+                }
+
+                // 2. Get URL parameters (from QR codes or ads)
+                const params = new URLSearchParams(window.location.search);
+
+                // 3. Collect visit data
+                const visitData = {
+                    visitor_id: visitorId,
+                    is_first_visit: isFirstVisit,
+                    timestamp: new Date().toISOString(),
+
+                    // Tracking parameters from URL
+                    source: params.get('source'),       // e.g., 'qr', 'facebook', 'google'
+                    campaign: params.get('campaign'),   // e.g., 'spring2024'
+                    ad_id: params.get('ad_id'),        // e.g., '123'
+                    location: params.get('location'),   // e.g., 'campus_library'
+
+                    // Browser/device info
+                    screen_size: `${screen.width}x${screen.height}`,
+                    language: navigator.language,
+                    referrer: document.referrer || null,
+                    page_url: window.location.href
+                };
+
+                // 4. Send to Supabase
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/visits`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(visitData)
+                });
+
+                if (!response.ok) {
+                    console.error('Failed to track visit:', response.statusText);
+                } else {
+                    console.log('Visit tracked successfully');
+                }
+            } catch (error) {
+                console.error('Error tracking visit:', error);
+            }
+        }
+
+        // Run tracking when page loads
+        document.addEventListener('DOMContentLoaded', trackVisit);
     </script>
 </body>
 </html>
