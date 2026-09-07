@@ -383,7 +383,8 @@
                     screen_size: `${screen.width}x${screen.height}`,
                     language: navigator.language,
                     referrer: document.referrer || null,
-                    page_url: window.location.href
+                    page_url: window.location.href,
+                    user_agent: navigator.userAgent
                 };
 
                 // 4. Send to Supabase
