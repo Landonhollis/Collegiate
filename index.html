@@ -233,6 +233,54 @@
             font-size: 0.9rem;
         }
 
+        .support {
+            margin-top: 2.5rem;
+            padding: 2rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .support h2 {
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .support p {
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .support-email {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            word-break: break-word;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        .support-email:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.45);
+        }
+
+        .support-note {
+            margin-top: 1.25rem;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
         @media (max-width: 600px) {
             h1 { font-size: 2.5rem; }
             .status-bar { flex-direction: column; }
@@ -325,6 +373,16 @@
                 Test Interaction
             </button>
         </center>
+
+        <section class="support" id="support">
+            <h2>Support</h2>
+            <p>
+                Questions, bug reports, feedback, or account help — reach out and
+                we'll get back to you as soon as we can.
+            </p>
+            <a class="support-email" href="mailto:landonhollis2006@gmail.com">landonhollis2006@gmail.com</a>
+            <p class="support-note">We typically respond within 1&ndash;2 business days.</p>
+        </section>
 
         <div class="footer">
             Deployed via Render • Powered by GitHub • Domain by Namecheap
